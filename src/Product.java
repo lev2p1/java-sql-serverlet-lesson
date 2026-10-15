@@ -18,6 +18,10 @@ public class Product {
 
     protected HashMap<String, String> attr;
 
+    public Product() {
+        this.attr = new HashMap<String, String>();
+    }
+
     public void println(ResultSet st, HttpServletResponse resp) throws SQLException, IOException {
         resp.getWriter().println("(PRODUCT) " + primary_key.toUpperCase() +": " + st.getString(primary_key));
 
