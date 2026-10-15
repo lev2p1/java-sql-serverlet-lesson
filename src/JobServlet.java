@@ -25,13 +25,10 @@ public class JobServlet extends HttpServlet {
         try {
             Connection con = DriverManager.getConnection(url, "postgres", "qwerty");
             ResultSet rs = con.createStatement().executeQuery("select * from products");
+            Product p = Product.create(rs);
 
             while(rs.next()) {
-                this.println("id", rs, resp);
-                this.println("name", rs, resp);
-                this.println("type", rs, resp);
-                this.println("price", rs, resp);
-                this.println("manufacturer", rs, resp);
+                p.println(rs, resp);
             }
         }
         catch (SQLException e) {
