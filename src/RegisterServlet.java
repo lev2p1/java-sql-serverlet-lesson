@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
+import java.util.HashMap;
 import java.util.Locale;
 
 
@@ -16,11 +17,31 @@ public class RegisterServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        String username = req.getParameter("username_1");
+        String url = "jdbc:postgresql://localhost:5432/sql_connector_lesson";
 
-        req.setAttribute("username_1", username.toUpperCase());
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            Connection con = DriverManager.getConnection(url, "postgres", "qwerty");
+            Statement st = con.createStatement();
 
-        System.out.println("asd");
-        req.getRequestDispatcher("/register.jsp").forward(req, resp);
+            String username = req.getParameter("username_1");
+            String email = req.getParameter("email_1");
+            String password = req.getParameter("password_1");
+
+            HashMap<String, String> hm = new HashMap<>();
+            hm.put("name", username);
+            hm.put("email", email);
+            hm.put("password", String.valueOf(password.hashCode()));
+
+            User u = User.create(hm, false, st);
+            u.println(resp);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

@@ -12,7 +12,6 @@ void main() {
         }
 
         Job j = new Job();
-
         j.show_all(st);
 
 
