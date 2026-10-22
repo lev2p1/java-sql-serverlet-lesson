@@ -27,9 +27,7 @@ public class JobServlet extends HttpServlet {
             ResultSet rs = con.createStatement().executeQuery("select * from products");
             Product p = Product.create(rs);
 
-            while(rs.next()) {
-                p.println(rs, resp);
-            }
+            p.println(rs, resp);
         }
         catch (SQLException e) {
             System.out.println("Error 25:");
